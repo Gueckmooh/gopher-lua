@@ -3,6 +3,8 @@ package lua
 import (
 	"fmt"
 	"strings"
+
+	"github.com/yuin/gopher-lua/ast"
 )
 
 const (
@@ -39,6 +41,8 @@ type FunctionProto struct {
 	DbgCalls           []DbgCall
 	DbgUpvalues        []string
 
+	Chunk *ast.FunctionExpr
+
 	stringConstants []string
 }
 
@@ -53,11 +57,11 @@ type Upvalue struct {
 }
 
 func (uv *Upvalue) Value() LValue {
-	//if uv.IsClosed() {
+	// if uv.IsClosed() {
 	if uv.closed || uv.reg == nil {
 		return uv.value
 	}
-	//return uv.reg.Get(uv.index)
+	// return uv.reg.Get(uv.index)
 	return uv.reg.array[uv.index]
 }
 
